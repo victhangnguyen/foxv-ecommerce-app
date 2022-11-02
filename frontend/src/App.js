@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Container } from 'react-bootstrap';
 
-function App() {
+//! imp css
+import './App.css';
+import './bootstrap.min.css';
+import './style.css';
+
+//! imp comps
+import Footer from './components/Footer';
+import Header from './components/Header';
+
+//! imp screens
+import HomeScreen from './screens/HomeScreen';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <main>
+        <Container>
+          <h1>Hello world</h1>
+          <HomeScreen />
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
-}
+};
 
 export default App;

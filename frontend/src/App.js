@@ -1,31 +1,34 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 //! imp css
 import './App.css';
 import './bootstrap.min.css';
-import './style.css';
+import './main.css';
 
-//! imp comps
-import Footer from './components/Footer';
-import Header from './components/Header';
+//! imp components
+import RootComponent from './components/RootComponent';
 
 //! imp screens
 import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import ErrorScreen from './screens/ErrorScreen';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootComponent />,
+    errorElement: <ErrorScreen />,
+    children: [
+      { path: '/', element: <HomeScreen /> },
+      { path: '/home', element: <HomeScreen /> },
+      { path: '/product/:productId', element: <ProductScreen /> },
+    ],
+  },
+]);
 
 const App = () => {
-  return (
-    <>
-      <Header />
-      <main>
-        <Container>
-          <h1>Hello world</h1>
-          <HomeScreen />
-        </Container>
-      </main>
-      <Footer />
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

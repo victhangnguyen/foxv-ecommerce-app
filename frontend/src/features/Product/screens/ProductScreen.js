@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 
 //! imp components
-import Rating from '../components/Rating';
+import RatingComponent from '../../../components/RatingComponent';
 
 const ProductScreen = ({ match }) => {
   const [product, setProduct] = React.useState({});
@@ -30,7 +30,7 @@ const ProductScreen = ({ match }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [productId]);
 
   console.log('__Debugger__screens__productScreen__product: ', product);
 
@@ -67,7 +67,7 @@ const ProductScreen = ({ match }) => {
               <h3>{product.name}</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Rating
+              <RatingComponent
                 value={product.rating || 0}
                 text={`${product.numReviews} reviews `}
               />{' '}

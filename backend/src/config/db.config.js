@@ -1,3 +1,5 @@
+//! library
+import Logging from '../library/Logging.js';
 import mongoose from 'mongoose';
 
 import dotenv from 'dotenv';
@@ -28,10 +30,12 @@ const config = {
     mongoose
       .connect(MONGO_URL)
       .then((result) => {
-        console.log(`MongoDB is running! 🚀🚀🚀`);
+        // console.log(`MongoDB is running! 🚀🚀🚀`);
+        Logging.log(`MongoDB is running! 🚀🚀🚀`);
       })
       .catch((err) => {
-        console.error('Error: ' + err.message);
+        // console.error('Error: ' + err.message);
+        Logging.error(`Error: ${err.message}`);
         //! 1 - Uncaught Fatal Exception: There was an uncaught exception, and it was not handled by a domain or an uncaughtException event handler.
         process.exit(1);
       });

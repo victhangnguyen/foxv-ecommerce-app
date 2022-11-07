@@ -1,13 +1,20 @@
-//! configs
-import configs from './configs/index.js';
+//! Library
+import Logging from './library/Logging.js';
+
+//! config
+import config from './config/index.js';
 
 import express from 'express';
 
-import productRouter from './routes/product.js';
+//! mdws
+import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+
+//! Router
+import productRouter from './routes/productRoutes.js';
 
 const app = express();
 
-configs.db.connectMongoDB()
+config.db.connectMongoDB();
 
 //! Healcheck
 app.get('/', (req, res, next) => {
@@ -15,10 +22,15 @@ app.get('/', (req, res, next) => {
 });
 
 //! imp Routes
-app.use('/api', productRouter);
+app.use('/api/products', productRouter);
 
-app.listen(configs.db.server.port, () => {
-  console.log(
-    `Server listening in ${configs.general.node.environment} on port ${configs.db.server.port}! 🚀🚀🚀`
+//! Not Found - Error Handling
+app.use(notFound);
+//! Error Handling
+app.use(errorHandler);
+
+app.listen(config.db.server.port, () => {
+  Logging.log(
+    `Server listening in ${config.general.node.environment} on port ${config.db.server.port}! 🚀🚀🚀`
   );
 });

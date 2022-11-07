@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
 //! imp comps
-import Product from '../components/Product';
+import ProductComponent from '../../Product/components/ProductComponent';
 
 const HomeScreen = () => {
   const [products, setProducts] = React.useState([]);
@@ -24,11 +24,12 @@ const HomeScreen = () => {
       {
         //! Container that in main (App.js)
       }
+      {console.log(products)}
       <Row>
         {products.map((product) => {
           return (
-            <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-              <Product product={product} />
+            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <ProductComponent product={product} />
             </Col>
           );
         })}

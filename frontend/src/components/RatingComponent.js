@@ -5,7 +5,7 @@ import StarRegularIcon from '../components/icons/StarRegularIcon';
 import StarSolidIcon from '../components/icons/StarSolidIcon';
 import StarHalfStrokeSolidIcon from '../components/icons/StarHalfStrokeSolidIcon';
 
-const Rating = ({ value, text, color }) => {
+const RatingComponent = ({ value, text, color }) => {
   const count = 5;
   let renderRating = [];
   for (let i = 0; i < count; i++) {
@@ -29,14 +29,14 @@ const Rating = ({ value, text, color }) => {
   );
 };
 
-Rating.defaultProps = {
+RatingComponent.defaultProps = {
   color: '#f8e825',
 };
 
-Rating.propTypes = {
+RatingComponent.propTypes = {
   value: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 };
 
-export default Rating;
+export default RatingComponent;

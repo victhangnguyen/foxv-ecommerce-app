@@ -1,5 +1,7 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 //! imp css
 import '../bootstrap.min.css';
@@ -8,6 +10,7 @@ import '../main.css';
 //! imp screens
 import HomeScreen from '../features/Home/screens/HomeScreen';
 import ProductScreen from '../features/Product/screens/ProductScreen';
+import CartScreen from '../features/Cart/screens/CartScreen';
 import ErrorScreen from '../features/Error/screens/ErrorScreen';
 
 import { Container } from 'react-bootstrap';
@@ -44,14 +47,19 @@ const router = createBrowserRouter([
       { path: '/', element: <HomeScreen /> },
       { path: '/home', element: <HomeScreen /> },
       { path: '/product/:productId', element: <ProductScreen /> },
+      { path: '/cart/:id', element: <CartScreen /> },
     ],
   },
 ]);
 
+let persistor = persistStore(store)
+
 const App = () => {
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   );
 };

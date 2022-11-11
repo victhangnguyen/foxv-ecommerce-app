@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "node backend/src/server",
-    "dev:start": "nodemon backend/src/server",
+    "dev:start": "nodemon --config nodemon.json backend/src/server",
     "data:import": "node backend/src/seeder",
     "data:destroy": "node backend/src/seeder -d"
   },

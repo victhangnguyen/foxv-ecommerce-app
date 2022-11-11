@@ -44,15 +44,22 @@ const router = createBrowserRouter([
     element: <RootComponent />,
     errorElement: <ErrorScreen />,
     children: [
-      { path: '/', element: <HomeScreen /> },
+      // { path: '/', element: <HomeScreen /> },
+      { index: true, element: <HomeScreen /> },
       { path: '/home', element: <HomeScreen /> },
       { path: '/product/:productId', element: <ProductScreen /> },
-      { path: '/cart/:id', element: <CartScreen /> },
+      {
+        path: '/cart',
+        children: [
+          { index: true, element: <CartScreen /> },
+          { path: '/cart/:productId', element: <CartScreen /> },
+        ],
+      },
     ],
   },
 ]);
 
-let persistor = persistStore(store)
+let persistor = persistStore(store);
 
 const App = () => {
   return (

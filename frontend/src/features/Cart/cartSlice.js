@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   // cartItems: [{product: {}, qty: number }]
@@ -9,28 +10,47 @@ const initialState = {
 };
 
 //! thunk Action
-const addToCart = createAsyncThunk(
+export const addToCart = createAsyncThunk(
   'cart/addToCart',
-  async (productId, qty, thunkAPI) => {
-    const response = await fetch(`/api/products/${productId}`);
+  async ({ productId, qty }, thunkAPI) => {
+    // const navigate = useNavigate();
 
-    if (!response.ok) {
-      return thunkAPI.rejectWithValue(response.statusText);
-      // throw new Error(response.statusText);
+    try {
+      // console.log(
+      //   `%c __Debugger__CartSlice__qty: ${qty}`,
+      //   'color: green; font-weight: bold'
+      // );
+      const response = await fetch(`/api/products/${productId}`);
+      // console.log(
+      //   `%c __Debugger__CartSlice__response: ${response}`,
+      //   'color: green; font-weight: bold'
+      // );
+
+      if (!response.ok) {
+        return thunkAPI.rejectWithValue(response.statusText);
+        // return navigate('/cart');
+        // throw new Error(response.statusText);
+      }
+
+      const product = await response.json();
+
+      const item = {
+        product: product._id,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        countInStock: product.countInStock,
+        qty: +qty,
+      };
+
+      // console.log(
+      //   `%c __Debugger__cartSlice: ${JSON.stringify(item)}`,
+      //   'color: green; font-weight: bold'
+      // );
+      return thunkAPI.fulfillWithValue(item);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
-
-    const product = await response.json();
-
-    const item = {
-      product: product._id,
-      name: product.name,
-      image: product.iamge,
-      price: product.price,
-      countInStock: product.countInStock,
-      qty,
-    };
-
-    return thunkAPI.fulfillWithValue(item);
   }
 );
 
@@ -42,31 +62,39 @@ const cartSlice = createSlice({
     builder
       .addCase(addToCart.pending, (state, action) => {
         state.loading = 'pending';
+        state.error = null;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = 'succeeded';
 
         //! {product: _id}
         const item = action.payload;
+        // console.log(
+        //   `%c __Debugger__CartSlice__item: ${JSON.stringify(item)}`,
+        //   'color: blue; font-weight: bold'
+        // );
 
         const existingItem = state.cartItems.find(
           (cartItem) => cartItem.product === item.product
         );
+        // console.log(
+        //   `%c __Debugger__CartSlice__existingItem: ${JSON.stringify(
+        //     existingItem
+        //   )}`,
+        //   'color: blue; font-weight: bold'
+        // );
 
         if (existingItem) {
-          state.cartItems.map((cartItem) =>
+          state.cartItems = state.cartItems.map((cartItem) =>
             cartItem.product === existingItem.product ? item : cartItem
           );
         } else {
           state.cartItems.push(item);
         }
-
-
-
       })
       .addCase(addToCart.rejected, (state, action) => {
-        state.loading = 'failed';
-        state.error = action.payload;
+        state.loading = 'idle';
+        // state.error = action.payload;
       });
   },
 });

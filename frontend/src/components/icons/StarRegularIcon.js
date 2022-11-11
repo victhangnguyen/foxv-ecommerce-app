@@ -5,8 +5,8 @@ const StarRegularIcon = ({ size, color }) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 574 512"
-      width={size}
-      fill={color}
+      width={size ? size : '1rem'}
+      fill={color ? color : 'black'}
     >
       <g id="icon-star-regular">
         <path

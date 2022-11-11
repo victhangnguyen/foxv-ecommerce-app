@@ -24,8 +24,9 @@ const ProductScreen = () => {
 
   const { productId } = useParams();
   const navigate = useNavigate();
+  
 
-  console.log('__Debugger__screens__productScreen__product: ', productId);
+  // console.log('__Debugger__screens__productScreen__product: ', productId);
 
   const dispatch = useDispatch();
 
@@ -41,7 +42,7 @@ const ProductScreen = () => {
 
   const addToCartHandler = () => {
     //! history.push()
-    navigate(`/cart/${productId}?qty=${qty}`);
+    navigate(`/cart/${productId}?qty=${qty ? qty : 1}`);
   };
 
   return (

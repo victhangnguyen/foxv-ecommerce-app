@@ -9,6 +9,30 @@
   font-family: "SVN-Poppins", Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 }
 
+h1 {
+  font-size: 1.4rem;
+  padding: 1rem 0;
+}
+
+h2 {
+  font-size: 1.4rem;
+  padding: 0.5rem 0;
+}
+
+.form-select.form-select-md .form-select.form-select-md {
+  padding: 12px 72px 12px 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .form-select.form-select-md {
+    padding: 12px 50px 12px 12px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .form-select.form-select-md {
+    padding: 12px 72px 12px 24px;
+  }
+}
 main {
   min-height: 80vh;
   padding: 1rem 0;

@@ -27,10 +27,10 @@ export const fetchProducts = createAsyncThunk(
     } catch (err) {
       // Use `err.response.data` as `action.payload` for a `rejected` action,
       // by explicitly returning it using the `rejectWithValue()` utility
-      console.log(
-        '__Debugger__features__Product__productSlice__fetchProduct__err: ',
-        err
-      );
+      // console.log(
+      //   '__Debugger__features__Product__productSlice__fetchProduct__err: ',
+      //   err
+      // );
       // return thunkAPI.rejectWithValue(err.response.data);
       return thunkAPI.rejectWithValue(err);
     }
@@ -42,10 +42,10 @@ export const fetchProductById = createAsyncThunk(
   async (productId, thunkAPI) => {
     try {
       const response = await fetch(`/api/products/${productId}`);
-      console.log(
-        '__Debugger__features__Product__productSlice__fetchProductById__response: ',
-        response
-      );
+      // console.log(
+      //   '__Debugger__features__Product__productSlice__fetchProductById__response: ',
+      //   response
+      // );
       if (!response.ok) {
         return thunkAPI.rejectWithValue(response.statusText);
         // throw new Error(response.statusText);
@@ -79,6 +79,7 @@ const productSlice = createSlice({
     //! Add reducers for additional action types here, and handle loading state as needed
     //! fetchProducts
     builder.addCase(fetchProducts.pending, (state, action) => {
+      state.entities = [];
       state.loading = 'pending';
       state.error = null;
     });
@@ -86,13 +87,10 @@ const productSlice = createSlice({
       // Get products from state
       state.entities = action.payload;
       state.loading = 'succeeded';
+      state.error = null;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
-      // console.log(
-      //   '__Debugger__features__Product__productSlice__fetchProduct_rejected__action: ',
-      //   action
-      // );
-
+      state.entities = [];
       state.loading = 'failed';
       if (action.payload) {
         // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
@@ -101,34 +99,39 @@ const productSlice = createSlice({
       } else {
         state.error = action.error.message;
       }
+
+      // console.log(
+      //   '__Debugger__features__Product__productSlice__fetchProduct_rejected__action: ',
+      //   action
+      // );
     });
     //! fetchProductById
     builder
       .addCase(fetchProductById.pending, (state, action) => {
-        console.log(
-          `%c __Debugger__fetchProductById.pending: state.loading: ${state.loading}`,
-          'color: red; font-weight: bold'
-        );
+        // console.log(
+        //   `%c __Debugger__fetchProductById.pending: state.loading: ${state.loading}`,
+        //   'color: red; font-weight: bold'
+        // );
         if (state.loading === 'idle' || state.loading === 'succeeded') {
           state.entities = [];
           state.loading = 'pending';
           state.currentRequestId = action.meta.requestId;
         }
-        console.log(
-          `%c __Debugger__fetchProductById.pending: state.currentRequestId: ${state.currentRequestId}`,
-          'color: red; font-weight: bold'
-        );
+        // console.log(
+        //   `%c __Debugger__fetchProductById.pending: state.currentRequestId: ${state.currentRequestId}`,
+        //   'color: red; font-weight: bold'
+        // );
       })
       .addCase(fetchProductById.fulfilled, (state, action) => {
         const { requestId } = action.meta;
-        console.log(
-          `%c __Debugger__fetchProductById.fulfilled: requestId: ${requestId}`,
-          'color: red; font-weight: bold'
-        );
-        console.log(
-          `%c __Debugger__fetchProductById.fulfilled: state.loading: ${state.loading} - state.currentRequestId: ${state.currentRequestId}`,
-          'color: red; font-weight: bold'
-        );
+        // console.log(
+        //   `%c __Debugger__fetchProductById.fulfilled: requestId: ${requestId}`,
+        //   'color: red; font-weight: bold'
+        // );
+        // console.log(
+        //   `%c __Debugger__fetchProductById.fulfilled: state.loading: ${state.loading} - state.currentRequestId: ${state.currentRequestId}`,
+        //   'color: red; font-weight: bold'
+        // );
         if (
           state.loading === 'pending' &&
           state.currentRequestId === requestId

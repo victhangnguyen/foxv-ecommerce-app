@@ -8,12 +8,6 @@ export default class Logging {
       chalk.blue(`[${new Date().toLocaleString()}] [INFO]`),
       typeof args === 'string' ? chalk.blueBright(args) : args
     );
-  static infoAsync = (args) => {
-    console.log(
-      chalk.blue(`[${new Date().toLocaleString()}] [INFO]`),
-      typeof args === 'string' ? chalk.blueBright(args) : args
-    );
-  };
   static warn = (args) =>
     console.log(
       chalk.yellow(`[${new Date().toLocaleString()}] [WARN]`),
@@ -26,7 +20,7 @@ export default class Logging {
     );
   static success = (args) =>
     console.log(
-      chalk.green(`[${new Date().toLocaleString()}] [SHOP]`),
+      chalk.green(`[${new Date().toLocaleString()}] [ERROR]`),
       typeof args === 'string' ? chalk.greenBright(args) : args
     );
 }

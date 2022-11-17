@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/', productController.getProducts);
 
 //! @desc     Fetch single product by Id
-//! @route    GET /api/product/:productId
+//! @route    GET /api/products/:productId
 //! @access   Public
 router.get('/:productId', productController.getProduct);
 

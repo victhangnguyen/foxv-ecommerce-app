@@ -1,15 +1,16 @@
 import Product from '../models/productModel.js';
 
+//! @desc     Fetch all products
+//! @route    GET /api/products
+//! @access   Public
 export const getProducts = async (req, res, next) => {
   try {
-    // res.status(401);
-    // throw new Error('Not Authorized!!!');
-
     const productDocs = await Product.find({});
-    // console.log(
-    //   '__Debugger__ctrls__product__getProducts__productDocs: ',
-    //   productDocs
-    // );
+    console.log(
+      '__Debugger__ctrls__product__getProducts__productDocs: ',
+      productDocs
+    );
+
 
     res.status(200).json(productDocs);
   } catch (error) {
@@ -17,11 +18,11 @@ export const getProducts = async (req, res, next) => {
   }
 };
 
+//! @desc     Fetch single product by Id
+//! @route    GET /api/product/:productId
+//! @access   Public
 export const getProduct = async (req, res, next) => {
   try {
-    // res.status(401);
-    // throw new Error('Not Authorized!!!');
-
     const productId = req.params.productId;
 
     const productDoc = await Product.findById(productId);

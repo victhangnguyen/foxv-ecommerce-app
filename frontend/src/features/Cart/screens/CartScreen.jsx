@@ -1,25 +1,32 @@
 import React from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  useSearchParams,
+  useNavigate,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
   Col,
   ListGroup,
   Image,
-  Form,
   Button,
   Card,
   FormSelect,
 } from 'react-bootstrap';
 //! imp Actions
 import { addToCart } from '../cartSlice';
+import { removeFromCart } from '../cartSlice';
 
 //! imp Comps
-import MessageCommponent from '../../../components/MessageCommponent.js';
-import TrashIcon from '../../../components/icons/TrashIcon.js';
+import MessageCommponent from '../../../components/MessageCommponent.jsx';
+import TrashIcon from '../../../components/icons/TrashIcon.jsx';
 
 const CartScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { productId } = useParams();
   // console.log(
   //   `%c __Debugger__CartScreen: ${productId}`,
@@ -58,14 +65,16 @@ const CartScreen = () => {
     dispatch(addToCart({ productId, qty }));
   };
 
-  const removeFromCartHandler = () => {
-    console.log(
-      `%c __Debugger__CartScreen__removeFromCartHandler`,
-      'color: red; font-weight: bold'
-    );
+  const removeFromCartHandler = (productId) => {
+    dispatch(removeFromCart(productId));
+    // console.log(
+    //   `%c __Debugger__CartScreen__removeFromCartHandler__productId: ${productId}`,
+    //   'color: red; font-weight: bold'
+    // );
   };
 
   const checkoutHandler = () => {
+    navigate('/login?redirect=shipping');
     console.log(
       `%c __Debugger__CartScreen__checkoutHandler`,
       'color: red; font-weight: bold'

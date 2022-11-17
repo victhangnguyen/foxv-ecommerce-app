@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { useNavigate } from 'react-router-dom';
+import ProductAPI from '../../API/ProductAPI';
 
 const initialState = {
   // cartItems: [{product: {}, qty: number }]
@@ -20,19 +20,19 @@ export const addToCart = createAsyncThunk(
       //   `%c __Debugger__CartSlice__qty: ${qty}`,
       //   'color: green; font-weight: bold'
       // );
-      const response = await fetch(`/api/products/${productId}`);
+      const product = await ProductAPI.getDetail(productId);
       // console.log(
       //   `%c __Debugger__CartSlice__response: ${response}`,
       //   'color: green; font-weight: bold'
       // );
 
-      if (!response.ok) {
-        return thunkAPI.rejectWithValue(response.statusText);
-        // return navigate('/cart');
-        // throw new Error(response.statusText);
-      }
+      // if (!response.ok) {
+      //   return thunkAPI.rejectWithValue(response.statusText);
+      //   // return navigate('/cart');
+      //   // throw new Error(response.statusText);
+      // }
 
-      const product = await response.json();
+      // const product = await response.json();
 
       const item = {
         product: product._id,
@@ -57,7 +57,17 @@ export const addToCart = createAsyncThunk(
 const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    removeFromCart: (state, action) => {
+      const productId = action.payload;
+      const productIndex = state.cartItems.findIndex(
+        (cartItem) => cartItem.product === productId
+      );
+      if (productIndex !== -1) {
+        state.cartItems.splice(productIndex, 1);
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addToCart.pending, (state, action) => {
@@ -99,7 +109,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const {} = cartSlice.actions;
+export const { removeFromCart } = cartSlice.actions;
 const reducer = cartSlice.reducer;
 
 export default reducer;

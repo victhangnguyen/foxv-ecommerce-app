@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp RTK-Actions
-import { fetchProductById } from '../productsSlice.js';
+import { fetchProductById } from '../productSlice.jsx';
 
 //! imp components
 import RatingComponent from '../../../components/RatingComponent';

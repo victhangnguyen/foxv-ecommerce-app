@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 //! imp icons
-import StarRegularIcon from '../components/icons/StarRegularIcon';
-import StarSolidIcon from '../components/icons/StarSolidIcon';
-import StarHalfStrokeSolidIcon from '../components/icons/StarHalfStrokeSolidIcon';
+import StarRegularIcon from './icons/StarRegularIcon';
+import StarSolidIcon from './icons/StarSolidIcon';
+import StarHalfStrokeSolidIcon from './icons/StarHalfStrokeSolidIcon';
 
 const RatingComponent = ({ value, text, color }) => {
   const count = 5;

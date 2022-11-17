@@ -1,22 +1,27 @@
+import ProductAPI from '../../API/ProductAPI';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
+  'product/fetchProducts',
   // if you type your function argument here
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`/api/products`);
-      // console.log(
-      //   '__Debugger__features__Product__productSlice__fetchProduct__response: ',
-      //   response
-      // );
+      // const response = await fetch(`/api/products`);
+      // const response = await ProductAPI.getAPI();
+      const products = await ProductAPI.getAPI();
 
-      if (!response.ok) {
-        return thunkAPI.rejectWithValue(response.statusText);
-        // throw new Error(response.statusText);
-      }
+      console.log(
+        '__Debugger__features__Product__productSlice__fetchProduct__products: ',
+        products
+      );
 
-      const products = await response.json();
+      // if (!response.ok) {
+      //   return thunkAPI.rejectWithValue(response.statusText);
+      //   // throw new Error(response.statusText);
+      // }
+
+      // const products = await response.json();
+
       // console.log(
       //   '__Debugger__features__Product__productSlice__fetchProduct__products: ',
       //   products
@@ -24,41 +29,43 @@ export const fetchProducts = createAsyncThunk(
 
       return thunkAPI.fulfillWithValue(products);
       // return products;
-    } catch (err) {
-      // Use `err.response.data` as `action.payload` for a `rejected` action,
-      // by explicitly returning it using the `rejectWithValue()` utility
-      // console.log(
-      //   '__Debugger__features__Product__productSlice__fetchProduct__err: ',
-      //   err
-      // );
-      // return thunkAPI.rejectWithValue(err.response.data);
-      return thunkAPI.rejectWithValue(err);
+    } catch (error) {
+      // return custom error message from API if any
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
     }
   }
 );
 
 export const fetchProductById = createAsyncThunk(
-  'products/fetchProductById',
+  'product/fetchProductById',
   async (productId, thunkAPI) => {
     try {
-      const response = await fetch(`/api/products/${productId}`);
-      // console.log(
-      //   '__Debugger__features__Product__productSlice__fetchProductById__response: ',
-      //   response
-      // );
-      if (!response.ok) {
-        return thunkAPI.rejectWithValue(response.statusText);
-        // throw new Error(response.statusText);
-      }
+      const product = await ProductAPI.getDetail(productId);
 
-      const product = await response.json();
-      // console.log(
-      //   '__Debugger__features__Product__productSlice__fetchProductById__product: ',
-      //   product
-      // );
+      console.log(
+        `%c __Debugger__ProductSlice__fetchProductById__product: ${JSON.stringify(
+          product
+        )}`,
+        'color: blue; font-weight: bold'
+      );
+
+      // if (!response.ok) {
+      //   return thunkAPI.rejectWithValue(response.statusText);
+      //   // throw new Error(response.statusText);
+      // }
+
       return thunkAPI.fulfillWithValue(product);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      // return custom error message from API if any
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      } else {
+        return thunkAPI.rejectWithValue(error.message);
+      }
     }
   }
 );
@@ -72,7 +79,7 @@ const initialState = {
 };
 
 const productSlice = createSlice({
-  name: 'products',
+  name: 'product',
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
